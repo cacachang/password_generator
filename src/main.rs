@@ -1,4 +1,4 @@
-use inquire::Text;
+use inquire::{Confirm, Text};
 
 fn main() {
     let length_ans = Text::new("請問您的密碼長度要設定多少？").prompt();
@@ -21,4 +21,20 @@ fn main() {
     }
 
     let mut charset = String::from("");
+
+    const PASSWORD_NUMBER: &str = "1234567890";
+
+    let contain_number = Confirm::new("密碼是否包含數字").with_default(true).prompt();
+
+    match contain_number {
+        Ok(contain_number) => {
+            if contain_number {
+                println!("你的密碼將包含數字");
+                charset.push_str(PASSWORD_NUMBER)
+            } else {
+                println!("你的密碼不包含數字");
+            }
+        }
+        Err(_) => println!("請選擇是否包含數字"),
+    }
 }
