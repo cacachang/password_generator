@@ -1,5 +1,4 @@
-use inquire::{Confirm, Text};
-
+use inquire::{Confirm, MultiSelect, Text};
 fn main() {
     let length_ans = Text::new("請問您的密碼長度要設定多少？").prompt();
 
@@ -36,5 +35,26 @@ fn main() {
             }
         }
         Err(_) => println!("請選擇是否包含數字"),
+    }
+
+    const PASSWORD_LOWERCASE: &str = "abcdefghijklmnopqrstuvwxyz";
+    const PASSWORD_UPPERCASE: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const PASSWORD_SYMBOL: &str = "!@#$%^&*()_+-=[]{}|;:',.<>?";
+
+    let options = vec!["lowercase", "uppercase", "symbol"];
+    let char_ans = MultiSelect::new("請選擇密碼是否要包含:", options).prompt();
+
+    match char_ans {
+        Ok(choices) => {
+            for choice in choices {
+                match choice {
+                    "lowercase" => charset.push_str(PASSWORD_LOWERCASE),
+                    "uppercase" => charset.push_str(PASSWORD_UPPERCASE),
+                    "symbol" => charset.push_str(PASSWORD_SYMBOL),
+                    _ => (),
+                }
+            }
+        }
+        Err(_) => println!("選擇出現錯誤"),
     }
 }
